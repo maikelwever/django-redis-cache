@@ -594,6 +594,11 @@ class BaseRedisTestCase(SetupMixin):
         ttl = self.cache.ttl('a')
         self.assertAlmostEqual(ttl, 20)
 
+    def test_lock_raises_error(self):
+        with self.assertRaises(redis.exceptions.LockError):
+            with self.cache.lock('lock', timeout=.25):
+                time.sleep(.5)
+
 
 class ConfigurationTestCase(SetupMixin, TestCase):
 

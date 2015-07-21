@@ -436,3 +436,13 @@ class BaseRedisCache(BaseCache):
         returns True if successful and False if not.
         """
         return client.expire(key, timeout)
+
+    @get_client(write=True)
+    def lock(self, client, key, timeout=None, sleep=.1, blocking_timeout=None, **kwargs):
+        return client.lock(
+            name=key,
+            timeout=timeout,
+            sleep=sleep,
+            blocking_timeout=blocking_timeout,
+            **kwargs
+        )
